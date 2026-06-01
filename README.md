@@ -1,1 +1,1 @@
-# automatas-celulares
+# Proyecto-1
