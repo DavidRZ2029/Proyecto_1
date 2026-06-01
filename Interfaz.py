@@ -19,6 +19,32 @@ hormiga_direccion = 0 # 0 = arriba, 1 = derecha, 2 = abajo, 3 = izquierda
 #Funcion para generar los colores
 
 #Funcion para generar matriz vacia
+def generar_matriz_vacia(filas, columnas):
+    """
+    crea una matriz llena de ceros.
+    El 0 representa el color por defecto (blanco).
+
+    Entradas: 
+    - filas: numero de filas (int)
+    - columnas: numero de columnas (int)
+
+    Salidas: la matriz de filas x columnas con puros ceros
+
+    Restricciones: filas y columnas deben ser enteros positivos
+    """
+    if type(filas) != int or filas <= 0:
+        raise Exception("El numero de filas debe ser un entero positivo")
+    
+    if type(columnas) != int or columnas <= 0:
+        raise Exception("El numero de columnas debe ser un entero positivo")
+    
+    matriz = []
+    for f in range(filas):
+        fila = []
+        for c in range(columnas):
+            fila.append(0)
+        matriz.append(fila)
+    return matriz
 
 #Funcion para generar matriz aleatoria
 
