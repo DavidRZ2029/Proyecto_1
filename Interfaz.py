@@ -12,7 +12,7 @@ from random import randint
 # =====================================================================
 # CODIGO
 # =====================================================================
-def generar_matriz_aleatoria(filas, columnas):
+def generar_matriz_aleatorias(filas, columnas):
     """Función que que hace que retorna una matriz 
     especificadas con valores enteros aleatorios de 0 o 1"""
     return [[0 for c in range(columnas)] for f in range(filas)]
@@ -128,7 +128,7 @@ def likelife():
  
     pygame.init()
     reloj  = pygame.time.Clock()
-    M      = generar_matriz_aleatoria(filas, columnas)
+    M      = generar_matriz_aleatorias(filas, columnas)
     ventana = pygame.display.set_mode((columnas * tamaño, filas * tamaño))
     pygame.display.set_caption("Life-Like Automaton")
  
@@ -151,7 +151,7 @@ def likelife():
                         M, filas, columnas, tamaño, birth, survival = resultado
                         ventana = pygame.display.set_mode((columnas * tamaño, filas * tamaño))
                 if event.key == pygame.K_r:#Reiniciar aleatorio
-                    M = generar_matriz_aleatoria(filas, columnas)
+                    M = generar_matriz_aleatorias(filas, columnas)
                 if event.key == pygame.K_b:# Reiniciar con mariz vaciaaa
                     M = generar_matriz_vacia(filas, columnas)
  
