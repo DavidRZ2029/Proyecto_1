@@ -12,7 +12,7 @@ from random import randint
 # =====================================================================
 # CODIGO
 # =====================================================================
-def generar_matriz_aleatorias(filas, columnas):
+def generar_matriz_aleatoria(filas, columnas):
     """Función que que hace que retorna una matriz 
     especificadas con valores enteros aleatorios de 0 o 1"""
     return [[0 for c in range(columnas)] for f in range(filas)]
@@ -57,7 +57,7 @@ def transicion_celula(estado, vecinos, naci, surpervivencia):
 def transicion(M, naci, supervivencia):
 
     """Toma a la matriz  y segun esta completa y le aplica la función de transición a cada célula con su propio vecindario y deja que el resultado en una matriz nueva."""
-  filas = len(M)
+    filas = len(M)
     columnas = len(M[0])
     nueva = []
     for f in range(filas):
@@ -76,8 +76,13 @@ def pedir_parametros_Likelife():
     filas    = int(easygui.enterbox("Cantidad de filas:"))
     columnas = int(easygui.enterbox("Cantidad de columnas:"))
     tamaño   = int(easygui.enterbox("Tamaño de cada celda:"))
-    naci   = int(easygui.enterbox("Reglas de nacimiento :"))
-    supervivencia   = int(easygui.enterbox("Reglas de la supervivencia :"))
+    
+    naci_str = easygui.enterbox("Reglas de nacimiento :")
+    naci = [int(x) for x in naci_str.split(",")]
+
+    surv_str = easygui.enterbox("Reglas de supervivencia (ej: 2,3):")
+    supervivencia = [int(x) for x in surv_str.split(",")]
+    
     return filas, columnas, tamaño, naci, supervivencia
     
 def dibujar(ventana, M, tamaño):
@@ -124,7 +129,7 @@ def likelife():
     pygame.init()
     reloj  = pygame.time.Clock()
     M      = generar_matriz_aleatoria(filas, columnas)
-    window = pygame.display.set_mode((columnas * tamaño, filas * tamaño))
+    ventana = pygame.display.set_mode((columnas * tamaño, filas * tamaño))
     pygame.display.set_caption("Life-Like Automaton")
  
     loop  = True
