@@ -15,7 +15,7 @@ from random import randint
 def generar_matriz_aleatorias(filas, columnas):
     """Función que que hace que retorna una matriz 
     especificadas con valores enteros aleatorios de 0 o 1"""
-    return [[randint(0, 1) for c in range(columnas)] for f in range(filas)]    
+    return [[0 for c in range(columnas)] for f in range(filas)]
 
 def obtener_vecinos(M, f, c):
 
@@ -46,7 +46,7 @@ def transicion_celula(estado, vecinos, naci, surpervivencia):
     
     
     
-  vivos = sum(vecinos)
+    vivos = sum(vecinos)
     if estado == 0 and vivos in naci:
         return 1
     if estado == 1 and vivos in surpervivencia:
@@ -54,7 +54,7 @@ def transicion_celula(estado, vecinos, naci, surpervivencia):
     return 0
 
 
-def transicion(M,naci, supervivencia):
+def transicion(M, naci, supervivencia):
 
     """Toma a la matriz  y segun esta completa y le aplica la función de transición a cada célula con su propio vecindario y deja que el resultado en una matriz nueva."""
   filas = len(M)
