@@ -84,49 +84,55 @@ filas = 75
 columnas = 75
 tick = 100
 
-def lifelike():
+
+# =====================================================================
+# CODIGO
+# =====================================================================
+def likelife():
+    filas, columnas, tamaño, birth, survival = pedir_parametros()
+ 
     pygame.init()
-    reloj = pygame.time.Clock()
-    Matriz = generar_matriz(filas, columnas)
-    w, h = columnas * tamaño, filas * tamaño
-    window = pygame.display.set_mode((w, h))
-    loop = True
+    reloj  = pygame.time.Clock()
+    M      = generar_matriz_aleatoria(filas, columnas)
+    window = pygame.display.set_mode((columnas * tamaño, filas * tamaño))
+    pygame.display.set_caption("Life-Like Automaton")
+ 
+    loop  = True
     pausa = False
+ 
     while loop:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 loop = False
+ 
             if event.type == pygame.KEYDOWN:
-                keys = pygame.key.get_pressed()
-                if keys[pygame.K_p]:
+                if event.key == pygame.K_SPACE:#Pausa
                     pausa = not pausa
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                buttons = pygame.mouse.get_pressed()
+                if event.key == pygame.K_g:              # Guardar
+                    guardar(M, filas, columnas, tamaño, birth, survival)
+                if event.key == pygame.K_c:#Cargar
+                    resultado = cargar()
+                    if resultado:
+                        M, filas, columnas, tamaño, birth, survival = resultado
+                        window = pygame.display.set_mode((columnas * tamaño, filas * tamaño))
+                if event.key == pygame.K_r:#Reiniciar aleatorio
+                    M = generar_matriz_aleatoria(filas, columnas)
+                if event.key == pygame.K_b:# Reiniciar con mariz vaciaaa
+                    M = generar_matriz_vacia(filas, columnas)
+ 
+            if event.type == pygame.MOUSEBUTTONDOWN:# Clic: cambiar celda
                 x, y = pygame.mouse.get_pos()
-                if buttons[0]:
-                    f = y // tamaño
-                    c = x // tamaño
-                    Matriz[f][c] = (Matriz[f][c] + 1) % 2
-                    
-        window.fill((0, 0, 0))
-        for f in range(filas):
-            for c in range(columnas):
-                if Matriz[f][c] == 1:
-                    x = c * tamaño
-                    y = f * tamaño
-                    pygame.draw.rect(window, (0, 255, 128), (x, y, tamaño, tamaño))
+                f, c = y // tamaño, x // tamaño
+                if 0 <= f < filas and 0 <= c < columnas:
+                    M[f][c] = (M[f][c] + 1) % 2
+ 
+        dibujar(window, M, tamaño)
         if not pausa:
-            Matriz = transicion(Matriz)
+            M = transicion(M, birth, survival)
         pygame.display.update()
         reloj.tick(10)
+ 
     pygame.quit()
-
-if __name__ == "__main__":
-    main()
-# =====================================================================
-# CODIGO
-# =====================================================================
-
 
 # =====================================================================
 # HORMIGA DE LANGTON - Automata Celular
@@ -618,10 +624,11 @@ def main():
     muestra un menu para que el usuario elija que automata quiere usar.
     Entradas: nada
     Salidas: nada, llama a la funcion del automata elegido
-    
+    Antonio Ye Lu 
     -David Rodríguez Zúñiga
     """
     opciones = [
+        "Like-Life"
         "Hormiga de Langton (Generalizada)",
         "Salir"
         
@@ -642,7 +649,8 @@ def main():
         elif eleccion == "Hormiga de Langton (Generalizada)":
             correr_hormiga()
             
-        #Agregue el elif para el life like y la funcion de correr_lifelike()
+        else == "Like-Life":
+            likeLife()
 
 
 if __name__ == "__main__":
