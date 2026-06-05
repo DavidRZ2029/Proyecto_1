@@ -19,20 +19,14 @@ def generar_matriz_aleatorias(filas, columnas):
 
 def obtener_vecinos(M, f, c):
 
-
-
     """Función quehace retornar retorna una lista con los estados de
     los 8 vecinos de la célula en la posición f, c de M."""
-
-
 
     vecinos = []
     for filas_vecinas in range(f - 1, f + 2):
         for columnas_vecinas in range(c - 1, c + 2):
             if filas_vecinas != f or columnas_vecinas != c:
-                filas_vecinas = filas_vecinas % len(M)
-                columnas_vecinas = columnas_vecinas % len(M[0])
-                vecinos.append(M[filas_vecinas][columnas_vecinas])
+                vecinos.append(M[filas_vecinas % len(M)][columnas_vecinas % len(M[0])])
     return vecinos
 
 
@@ -42,7 +36,7 @@ def obtener_vecinos(M, f, c):
 
 
 
-def transicion_celula(estado, vecinos):
+def transicion_celula(estado, vecinos, naci, surpervivencia):
     """Retorna el nuevo estado de la célula de acuerdo
     al estado de sus vecinos.
     Si estado == 0 y tiene 3 vecinos vivos Entoncess viva
@@ -52,39 +46,75 @@ def transicion_celula(estado, vecinos):
     
     
     
-    vivos = sum(vecinos)
-    if estado == 0 and vivos == 3:   
+  vivos = sum(vecinos)
+    if estado == 0 and vivos in naci:
         return 1
-    if estado == 1 and vivos < 2:    
-        return 0
-    if estado == 1 and vivos > 3:    
-        return 0
-    return estado    
+    if estado == 1 and vivos in surpervivencia:
+        return 1
+    return 0
 
 
-def transicion(M):
+def transicion(M,naci, supervivencia):
 
     """Toma a la matriz  y segun esta completa y le aplica la función de transición a cada célula con su propio vecindario y deja que el resultado en una matriz nueva."""
-    filas = len(M)
+  filas = len(M)
     columnas = len(M[0])
     nueva = []
     for f in range(filas):
         fila_nueva = []
         for c in range(columnas):
-            estado = M[f][c]
             vecinos = obtener_vecinos(M, f, c)
-            nuevo_estado = transicion_celula(estado, vecinos)
-            fila_nueva.append(nuevo_estado)
+            fila_nueva.append(transicion_celula(M[f][c], vecinos, naci, supervivencia))
         nueva.append(fila_nueva)
     return nueva
 
-
-tamaño = 20
-filas = 75
-columnas = 75
-tick = 100
-
-
+def pedir_parametros():
+    """Pide los parámetros iniciales al usuario con easygui.
+    Entradas: ninguna
+    Salidas: tupla (filas, columnas, tamaño, naci, supervivencia)
+    Restricciones: el usuario debe ingresar valores válidos"""
+    filas    = int(easygui.enterbox("Cantidad de filas:"))
+    columnas = int(easygui.enterbox("Cantidad de columnas:"))
+    tamaño   = int(easygui.enterbox("Tamaño de cada celda:"))
+    naci   = int(easygui.enterbox("Reglas de nacimiento :"))
+    supervivencia   = int(easygui.enterbox("Reglas de la supervivencia :"))
+    return filas, columnas, tamaño, naci, supervivencia
+    
+def dibujar(ventana, M, tamaño):
+    """Dibuja el estado actual de la matriz en la ventana.
+    Entradas: ventana ,M,  tamaño 
+    Salidas: ninguna
+    Restricciones: M debe ser una matriz rectangular"""
+    ventana.fill((0, 0, 0))
+    for f in range(len(M)):
+        for c in range(len(M[0])):
+            if M[f][c] == 1:
+                pygame.draw.rect(ventana, (0, 255, 128),
+                                 (c * tamaño, f * tamaño, tamaño, tamaño))
+def cargar():
+    """Carga archivo de un  autómata desde un archivo pickle.
+    Entradas: ninguna — lee 'estado.pkl'
+    Salidas: tupla (M, filas, columnas, tamaño, naci, supervivencia)
+    Restricciones: el archivo debe existir y tener el formato correcto"""
+    try:
+        with open("estado.pkl", "rb") as archivo:
+            datos = pickle.load(archivo)
+        print("Estado cargado.")
+        return (datos["matriz"], datos["filas"], datos["columnas"],
+                datos["tamaño"], datos["naci"], datos["supervivencia"])
+    except FileNotFoundError:
+        print("No se encontró archivo de estado.")
+        return None
+def guardar(M, filas, columnas, tamaño, naci, supervivencia):
+    """Guarda el estado completo del autómata en un archivo pickle.
+    Entradas: M, filas, columnas, tamaño, naci y supervivencia
+    Salidas: ninguna — escribe 'estado.pkl'
+    Restricciones: necesita permisos de escritura en el directorio"""
+    datos = {"matriz": M, "filas": filas, "columnas": columnas,
+             "tamaño": tamaño, "naci": naci, "supervivencia": supervivencia}
+    with open("estado.pkl", "wb") as archivo:
+        pickle.dump(datos, archivo)
+    print("Estado guardado.")
 # =====================================================================
 # CODIGO
 # =====================================================================
@@ -114,7 +144,7 @@ def likelife():
                     resultado = cargar()
                     if resultado:
                         M, filas, columnas, tamaño, birth, survival = resultado
-                        window = pygame.display.set_mode((columnas * tamaño, filas * tamaño))
+                        ventana = pygame.display.set_mode((columnas * tamaño, filas * tamaño))
                 if event.key == pygame.K_r:#Reiniciar aleatorio
                     M = generar_matriz_aleatoria(filas, columnas)
                 if event.key == pygame.K_b:# Reiniciar con mariz vaciaaa
@@ -126,7 +156,7 @@ def likelife():
                 if 0 <= f < filas and 0 <= c < columnas:
                     M[f][c] = (M[f][c] + 1) % 2
  
-        dibujar(window, M, tamaño)
+        dibujar(ventana, M, tamaño)
         if not pausa:
             M = transicion(M, birth, survival)
         pygame.display.update()
