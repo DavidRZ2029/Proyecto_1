@@ -628,7 +628,7 @@ def main():
     -David Rodríguez Zúñiga
     """
     opciones = [
-        "Juego de la vida(Life-Like)"
+        "Juego de la vida(Life-Like)",
         "Hormiga de Langton (Generalizada)",
         "Salir"
         
@@ -650,7 +650,7 @@ def main():
             correr_hormiga()
             
         elif eleccion == "Juego de la vida(Life-Like)":
-            likeLife()
+            likelife()
 
 
 if __name__ == "__main__":
