@@ -85,7 +85,8 @@ def pedir_parametros_Likelife():
     
     return filas, columnas, tamaño, naci, supervivencia
     
-def dibujar(ventana, M, tamaño):
+
+def dibujar_lifelike(ventana, M, tamaño):
     """Dibuja el estado actual de la matriz en la ventana.
     Entradas: ventana ,M,  tamaño 
     Salidas: ninguna
@@ -161,7 +162,7 @@ def likelife():
                 if 0 <= f < filas and 0 <= c < columnas:
                     M[f][c] = (M[f][c] + 1) % 2
  
-        dibujar(ventana, M, tamaño)
+        dibujar_lifelike(ventana, M, tamaño)
         if not pausa:
             M = transicion(M, birth, survival)
         pygame.display.update()
