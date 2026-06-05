@@ -68,7 +68,7 @@ def transicion(M,naci, supervivencia):
         nueva.append(fila_nueva)
     return nueva
 
-def pedir_parametros():
+def pedir_parametros_Likelife():
     """Pide los parámetros iniciales al usuario con easygui.
     Entradas: ninguna
     Salidas: tupla (filas, columnas, tamaño, naci, supervivencia)
@@ -119,7 +119,7 @@ def guardar(M, filas, columnas, tamaño, naci, supervivencia):
 # CODIGO
 # =====================================================================
 def likelife():
-    filas, columnas, tamaño, birth, survival = pedir_parametros()
+    filas, columnas, tamaño, birth, survival = pedir_parametros_Likelife()
  
     pygame.init()
     reloj  = pygame.time.Clock()
