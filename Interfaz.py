@@ -77,11 +77,12 @@ def pedir_parametros_Likelife():
     columnas = int(easygui.enterbox("Cantidad de columnas:"))
     tamaño   = int(easygui.enterbox("Tamaño de cada celda:"))
     
-    naci_str = easygui.enterbox("Reglas de nacimiento :")
-    naci = [int(x) for x in naci_str.split(",")]
-
+   
+    naci_str = easygui.enterbox("Reglas de nacimiento (ej: 3):")
+    naci = [int(x.strip()) for x in naci_str.split(",")]
+    
     surv_str = easygui.enterbox("Reglas de supervivencia (ej: 2,3):")
-    supervivencia = [int(x) for x in surv_str.split(",")]
+    supervivencia = [int(x.strip()) for x in surv_str.split(",")]
     
     return filas, columnas, tamaño, naci, supervivencia
     
