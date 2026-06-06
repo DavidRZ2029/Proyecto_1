@@ -14,13 +14,45 @@ from random import randint
 # =====================================================================
 def generar_matriz_aleatorias(filas, columnas):
     """Función que que hace que retorna una matriz 
-    especificadas con valores enteros aleatorios de 0 o 1"""
+    especificadas con valores enteros aleatorios de 0 o 1
+     Entrada: fila y columna numero INt positivo 
+    Salida:MAtriz de fila x columna
+    Restricciones: fila y colmna tiene que ser numeros INt positivos  """
     return [[random.randint(0, 1) for c in range(columnas)] for f in range(filas)]
+def generar_matriz_vacia(filas, columnas):
+    """
+    crea una matriz llena de ceros.
+    El 0 representa el color por defecto (blanco).
 
+    Entradas: 
+    - filas: numero de filas (int)
+    - columnas: numero de columnas (int)
+
+    Salidas: la matriz de filas x columnas con puros ceros
+
+    Restricciones: filas y columnas deben ser enteros positivos
+    """
+    if type(filas) != int or filas <= 0:
+        raise Exception("El numero de filas debe ser un entero positivo")
+    
+    if type(columnas) != int or columnas <= 0:
+        raise Exception("El numero de columnas debe ser un entero positivo")
+    
+    matriz = []
+    for f in range(filas):
+        fila = []
+        for c in range(columnas):
+            fila.append(0)
+        matriz.append(fila)
+    return matriz
+    
 def obtener_vecinos(M, f, c):
 
     """Función quehace retornar retorna una lista con los estados de
-    los 8 vecinos de la célula en la posición f, c de M."""
+    los 8 vecinos de la célula en la posición f, c de M.
+    Entrada: de la matriz anterior toma
+    salida: 
+    Restricciones: matriz en aletoria """
 
     vecinos = []
     for filas_vecinas in range(f - 1, f + 2):
@@ -41,7 +73,10 @@ def transicion_celula(estado, vecinos, naci, supervivencia):
     al estado de sus vecinos.
     Si estado == 0 y tiene 3 vecinos vivos Entoncess viva
     Si estado == 1 y tiene menos de 2 vecinos vivos Entocess muere
-    Si estado == 1 y tiene más de 3 vecinos vivos Entoncesss muere Cualquier otra combinación, el estado sigue igual."""
+    Si estado == 1 y tiene más de 3 vecinos vivos Entoncesss muere Cualquier otra combinación, el estado sigue igual.
+    Entrada: estado, vecinos, naci, supervivencia tienen que ser numeros INt
+    salida: 1 o 0 
+    Restricciones: naci y superviviencia solo digitos de 0 a 8"""
     
     
     
@@ -56,7 +91,10 @@ def transicion_celula(estado, vecinos, naci, supervivencia):
 
 def transicion(M, naci, supervivencia):
 
-    """Toma a la matriz  y segun esta completa y le aplica la función de transición a cada célula con su propio vecindario y deja que el resultado en una matriz nueva."""
+    """Toma a la matriz  y segun esta completa y le aplica la función de transición a cada célula con su propio vecindario y deja que el resultado en una matriz nueva.
+    Entradas: M — la matriz actual del autómata; naci — lista con los dígitos de nacimiento; supervivencia — lista con los dígitos de supervivencia
+    Restricciones: M debe ser una matriz rectangular no vacía con valores de 0 o 1; naci y supervivencia deben contener enteros entre 0 y 8
+    Salida: una nueva matriz del mismo tamaño que M con los estados actualizados de todas las células"""
     filas = len(M)
     columnas = len(M[0])
     nueva = []
