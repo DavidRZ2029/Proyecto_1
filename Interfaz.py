@@ -142,8 +142,7 @@ def dibujar_lifelike(ventana, M, tamaño):
     for f in range(len(M)):
         for c in range(len(M[0])):
             if M[f][c] == 1:
-                pygame.draw.rect(ventana, (0, 255, 128),
-                                 (c * tamaño, f * tamaño, tamaño, tamaño))
+                pygame.draw.rect(ventana, (0, 255, 128),(c * tamaño, f * tamaño, tamaño, tamaño))
 def cargar():
     """Carga archivo de un  autómata desde un archivo pickle.
     Entradas: ninguna — lee 'estado.pkl'
@@ -163,8 +162,7 @@ def guardar(M, filas, columnas, tamaño, naci, supervivencia):
     Entradas: M, filas, columnas, tamaño, naci y supervivencia
     Salidas: ninguna — escribe 'estado.pkl'
     Restricciones: necesita permisos de escritura en el directorio"""
-    datos = {"matriz": M, "filas": filas, "columnas": columnas,
-             "tamaño": tamaño, "naci": naci, "supervivencia": supervivencia}
+    datos = {"matriz": M, "filas": filas, "columnas": columnas,"tamaño": tamaño, "naci": naci, "supervivencia": supervivencia}
     with open("estado.pkl", "wb") as archivo:
         pickle.dump(datos, archivo)
     print("Estado guardado.")
