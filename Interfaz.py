@@ -68,6 +68,17 @@ def transicion(M, naci, supervivencia):
         nueva.append(fila_nueva)
     return nueva
 
+def parsear_reglas(regla_str):
+    """Convierte un string tipo 'B3/S23' en listas de naci y supervivencia.
+    Entradas: regla_str (str) en formato 'Bx/Sy'
+    Salidas: tupla (naci, supervivencia) de listas de ints
+    Restricciones: el string debe tener el formato correcto Bx/Sy"""
+    regla_str = regla_str.upper().replace(" ", "")
+    partes = regla_str.split("/")
+    naci = [int(d) for d in partes[0] if d.isdigit()]
+    supervivencia = [int(d) for d in partes[1] if d.isdigit()]
+    return naci, supervivencia
+    
 def pedir_parametros_Likelife():
     """Pide los parámetros iniciales al usuario con easygui.
     Entradas: ninguna
@@ -78,11 +89,10 @@ def pedir_parametros_Likelife():
     tamaño   = int(easygui.enterbox("Tamaño de cada celda:"))
     
    
-    naci_str = easygui.enterbox("Reglas de nacimiento (ej: 3):")
-    naci = [int(x.strip()) for x in naci_str.split(",")]
-    
-    surv_str = easygui.enterbox("Reglas de supervivencia (ej: 2,3):")
-    supervivencia = [int(x.strip()) for x in surv_str.split(",")]
+    regla    = easygui.enterbox(
+        "Regla en formato Bx/Sy\n(ej: B3/S23 para Conway clásico):",
+        "Life-Like", "B3/S23")
+    naci, supervivencia = parsear_reglas(regla)
     
     return filas, columnas, tamaño, naci, supervivencia
     
