@@ -87,10 +87,9 @@ def pedir_parametros_Likelife():
     filas    = int(easygui.enterbox("Cantidad de filas:", "Life-Like", "50"))
     columnas = int(easygui.enterbox("Cantidad de columnas:", "Life-Like", "50"))
     tamaño   = int(easygui.enterbox("Tamaño de cada celda (px):", "Life-Like", "12"))
-    regla    = easygui.enterbox(
-        "Regla en formato Bx/Sy\n(ej: B3/S23 para Conway clásico):",
-        "Life-Like", "B3/S23")
-    naci, supervivencia = parsear_reglas(regla)
+    naci = int(easygui.enterbox("Cantidad de columnas:", "Life-Like", "50"))
+    supervivencia   = int(easygui.enterbox("Tamaño de cada celda (px):", "Life-Like", "12"))
+    
     return filas, columnas, tamaño, naci, supervivencia
     
 
@@ -133,7 +132,7 @@ def guardar(M, filas, columnas, tamaño, naci, supervivencia):
 # CODIGO
 # =====================================================================
 def likelife():
-    filas, columnas, tamaño, birth, survival = pedir_parametros_Likelife()
+    filas, columnas, tamaño, naci, supervivencia = pedir_parametros_Likelife()
  
     pygame.init()
     reloj  = pygame.time.Clock()
@@ -153,11 +152,11 @@ def likelife():
                 if event.key == pygame.K_SPACE:#Pausa
                     pausa = not pausa
                 if event.key == pygame.K_g:              # Guardar
-                    guardar(M, filas, columnas, tamaño, birth, survival)
+                    guardar(M, filas, columnas, tamaño, naci, supervivencia)
                 if event.key == pygame.K_c:#Cargar
                     resultado = cargar()
                     if resultado:
-                        M, filas, columnas, tamaño, birth, survival = resultado
+                        M, filas, columnas, tamaño, naci, supervivencia = resultado
                         ventana = pygame.display.set_mode((columnas * tamaño, filas * tamaño))
                 if event.key == pygame.K_r:#Reiniciar aleatorio
                     M = generar_matriz_aleatorias(filas, columnas)
@@ -172,7 +171,7 @@ def likelife():
  
         dibujar_lifelike(ventana, M, tamaño)
         if not pausa:
-            M = transicion(M, birth, survival)
+            M = transicion(M, naci, supervivencia)
         pygame.display.update()
         reloj.tick(10)
  
