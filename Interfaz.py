@@ -36,7 +36,7 @@ def obtener_vecinos(M, f, c):
 
 
 
-def transicion_celula(estado, vecinos, naci, surpervivencia):
+def transicion_celula(estado, vecinos, naci, supervivencia):
     """Retorna el nuevo estado de la célula de acuerdo
     al estado de sus vecinos.
     Si estado == 0 y tiene 3 vecinos vivos Entoncess viva
@@ -49,7 +49,7 @@ def transicion_celula(estado, vecinos, naci, surpervivencia):
     vivos = sum(vecinos)
     if estado == 0 and vivos in naci:
         return 1
-    if estado == 1 and vivos in surpervivencia:
+    if estado == 1 and vivos in supervivencia:
         return 1
     return 0
 
@@ -87,8 +87,10 @@ def pedir_parametros_Likelife():
     filas    = int(easygui.enterbox("Cantidad de filas:", "Life-Like", "50"))
     columnas = int(easygui.enterbox("Cantidad de columnas:", "Life-Like", "50"))
     tamaño   = int(easygui.enterbox("Tamaño de cada celda (px):", "Life-Like", "12"))
-    naci = int(easygui.enterbox("Cantidad de columnas:", "Life-Like", "50"))
-    supervivencia   = int(easygui.enterbox("Tamaño de cada celda (px):", "Life-Like", "12"))
+    regla    = easygui.enterbox(
+        "Regla en formato Bx/Sy\n(ej: B3/S23 para Conway clásico):",
+        "Life-Like", "B3/S23")
+    naci, supervivencia = parsear_reglas(regla)
     
     return filas, columnas, tamaño, naci, supervivencia
     
