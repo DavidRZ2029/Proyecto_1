@@ -84,16 +84,14 @@ def pedir_parametros_Likelife():
     Entradas: ninguna
     Salidas: tupla (filas, columnas, tamaño, naci, supervivencia)
     Restricciones: el usuario debe ingresar valores válidos"""
-    filas    = int(easygui.enterbox("Cantidad de filas:"))
-    columnas = int(easygui.enterbox("Cantidad de columnas:"))
-    tamaño   = int(easygui.enterbox("Tamaño de cada celda:"))
-    
-   
-    regla    = easygui.enterbox(
-        "Regla en formato Bx/Sy\n(ej: B3/S23 para Conway clásico):",
-        "Life-Like", "B3/S23")
-    naci, supervivencia = parsear_reglas(regla)
-    
+    fdef pedir_parametros_Likelife():
+    filas       = int(easygui.enterbox("Cantidad de filas:"))
+    columnas    = int(easygui.enterbox("Cantidad de columnas:"))
+    tamaño      = int(easygui.enterbox("Tamaño de cada celda:"))
+    naci_str    = easygui.enterbox("Reglas de nacimiento (ej: 3):")
+    naci        = [int(x.strip()) for x in naci_str.split(",")]
+    surv_str    = easygui.enterbox("Reglas de supervivencia (ej: 2,3):")
+    supervivencia = [int(x.strip()) for x in surv_str.split(",")]
     return filas, columnas, tamaño, naci, supervivencia
     
 
